@@ -2,6 +2,7 @@
 import socketserver
 import os
 
+# Copyright 2013 Abram Hindle, Eddie Antonio Santos
 # Copyright 2021 Graeme Keates
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
