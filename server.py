@@ -34,6 +34,11 @@ class MyWebServer(socketserver.BaseRequestHandler):
         # Receive data from client
         self.data = self.request.recv(1024).strip()
 
+        # Check for empty response
+        if len(self.data) == 0:
+            self.request.sendall(bytearray('HTTP/1.1 400 Bad Request\r\nConnection: close', 'utf-8'))
+            return
+
         # Parse request for type of request and relative path to file
         method = self.data.split()[0].decode('utf-8')
 
