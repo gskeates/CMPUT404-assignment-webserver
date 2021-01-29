@@ -45,24 +45,22 @@ class MyWebServer(socketserver.BaseRequestHandler):
         if method == 'GET':
             # Parse data
             file_name = self.data.split()[1].decode('utf-8')
-
             path_to_file = './www' + file_name
-
-            # For 301 handling
-            redirect = False
-
-            # Serve index.html if given a directory
-            if os.path.isdir(path_to_file):
-                if path_to_file[-1] == '/':
-                    path_to_file += 'index.html'
-                else:
-                    path_to_file += '/index.html'
-                    redirect = True
-
             # Check if path exists
             file_exists = os.path.exists('./www/' + os.path.abspath(file_name))
-            
+
             if file_exists:
+                # For 301 handling
+                redirect = False
+
+                # Serve index.html if given a directory
+                if os.path.isdir(path_to_file):
+                    if path_to_file[-1] == '/':
+                        path_to_file += 'index.html'
+                    else:
+                        path_to_file += '/index.html'
+                        redirect = True
+
                 # Open and read data from file
                 file = open(path_to_file, "r")
                 file_contents = file.read()
