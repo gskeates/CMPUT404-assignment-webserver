@@ -33,7 +33,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
     def handle(self):
         # Receive data from client
         self.data = self.request.recv(1024).strip()
-
+        # print(self.data)
         # Check for empty response
         if len(self.data) == 0:
             self.request.sendall(bytearray('HTTP/1.1 400 Bad Request\r\nConnection: close', 'utf-8'))
@@ -45,6 +45,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
         if method == 'GET':
             # Parse data
             file_name = self.data.split()[1].decode('utf-8')
+
             path_to_file = './www' + file_name
 
             # For 301 handling
@@ -59,8 +60,9 @@ class MyWebServer(socketserver.BaseRequestHandler):
                     redirect = True
 
             # Check if path exists
-            if os.path.exists(path_to_file):
-
+            file_exists = os.path.exists('./www/' + os.path.abspath(file_name))
+            
+            if file_exists:
                 # Open and read data from file
                 file = open(path_to_file, "r")
                 file_contents = file.read()
@@ -72,7 +74,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
                     server_response = 'HTTP/1.1 200 OK\r\nContent-Type: text/{}\r\n\r\n{}'.format(content_type, file_contents)
                 # Redirect and send file contents
                 else:
-                    server_response = 'HTTP/1.1 301 Moved Permanently\r\nLocation: {}/\r\n\r\n'.format(file_name, file_contents)
+                    server_response = 'HTTP/1.1 301 Moved Permanently\r\nLocation: {}/\r\n\r\n'.format(file_name)
 
             # File doesn't exist
             else:
