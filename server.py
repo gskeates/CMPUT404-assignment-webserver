@@ -2,7 +2,7 @@
 import socketserver
 import os
 
-# Copyright 2013 Abram Hindle, Eddie Antonio Santos
+# Copyright 2021 Graeme Keates
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import os
 class MyWebServer(socketserver.BaseRequestHandler):
 
     def handle(self):
+
         # Receive data from client
         self.data = self.request.recv(1024).strip()
         # print(self.data)
