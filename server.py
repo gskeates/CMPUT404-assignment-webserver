@@ -73,7 +73,8 @@ class MyWebServer(socketserver.BaseRequestHandler):
                     server_response = 'HTTP/1.1 200 OK\r\nContent-Type: text/{}\r\n\r\n{}'.format(content_type, file_contents)
                 # Redirect and send file contents
                 else:
-                    server_response = 'HTTP/1.1 301 Moved Permanently\r\nLocation: {}/\r\n\r\n'.format(file_name)
+                    response_body = '<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body>\r\n<h1>Moved Permanently</h1>\r\n</body>\r\n</html>'
+                    server_response = 'HTTP/1.1 301 Moved Permanently\r\nLocation: {}/\r\n\r\n{}'.format(file_name, response_body)
 
             # File doesn't exist
             else:
